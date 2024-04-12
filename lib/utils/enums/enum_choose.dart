@@ -1,0 +1,4 @@
+enum typeHanlde {
+  SCAN,
+  RECOGNIZE
+}
