@@ -5,6 +5,7 @@ import 'package:crop_your_image/crop_your_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:path_provider/path_provider.dart';
 
 class CropImage extends StatefulWidget {
   final File file;
@@ -71,8 +72,8 @@ class _CropImageState extends State<CropImage> {
                         //Chuyển đổi image sang dạng File bằng File tạm thời ( Không lưu trữ lâu dài trên ứng dụng chỉ tồn tại trên thời gian chạy của ứng dụng)
 
                         final tempDir = Directory.systemTemp;
-                        
-                        final tempPath = '${tempDir.path}/temp_image.jpg';
+                        String date = DateTime.now().millisecond.toString();
+                        final tempPath = '${tempDir.path}/${date}.jpg';
 
                         final tempFile = File(tempPath);
 

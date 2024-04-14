@@ -40,6 +40,7 @@ dependencies:
   clipboard:
   camera:
   crop_your_image: ^1.0.2
+  path_provider: ^2.1.3
 
 dev_dependencies:
   flutter_test:
