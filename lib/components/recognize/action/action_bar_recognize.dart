@@ -3,15 +3,21 @@ import 'package:flutter/material.dart';
 class ActionBarReCo extends StatefulWidget {
   final Function chooseImageSuccess;
   final Function deleteImage;
+  final Function cropImage;
 
   ActionBarReCo(
-      {super.key, required this.chooseImageSuccess, required this.deleteImage});
+      {super.key, required this.chooseImageSuccess, required this.deleteImage, required this.cropImage});
 
   @override
   State<ActionBarReCo> createState() => _ActionBarReCoState();
 }
 
 class _ActionBarReCoState extends State<ActionBarReCo> {
+
+
+
+  
+
   @override
   Widget build(BuildContext context) {
     return //Action bar
@@ -48,7 +54,9 @@ class _ActionBarReCoState extends State<ActionBarReCo> {
 
             //Clip Image
             InkWell(
-              onTap: () {},
+              onTap: (){
+                widget.cropImage();
+              },
               child: const Icon(
                 Icons.cut_outlined,
                 size: 32,
