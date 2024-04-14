@@ -22,7 +22,6 @@ class _ChoosePicState extends State<ChoosePic> {
 
   @override
   void initState() {
-    // TODO: implement initState
     imagePicker = ImagePicker();
   }
 

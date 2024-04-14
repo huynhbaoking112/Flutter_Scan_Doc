@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
+import 'package:scan/utils/listLangue/list_langue.dart';
+import 'package:translator/translator.dart';
 
 class RecognizerScreen extends StatefulWidget {
   File image;
@@ -17,12 +19,18 @@ class RecognizerScreen extends StatefulWidget {
 
 class _RecognizerScreenState extends State<RecognizerScreen> {
   String results = '';
+  String translatorResult = '';
+
+  //Translator engine
+  late GoogleTranslator translator;
+  bool waitTranslator = false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     HandleImage();
+    translator = GoogleTranslator();
   }
 
   void HandleImage() async {
@@ -46,33 +54,42 @@ class _RecognizerScreenState extends State<RecognizerScreen> {
     }
     setState(() {});
   }
-  
 
-  void tapToCopy(){
+  void tapToCopy() {
     // print("king");
-    FlutterClipboard.copy(results).then((value){
-      showDialog(context: context, builder: (context) {
-        return AlertDialog(
-          title:const Text('Copied successfully', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),),
-          icon: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.green[400] 
+    FlutterClipboard.copy(results).then((value) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text(
+              'Copied successfully',
+              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
             ),
-            child:const Icon(Icons.copy, color: Colors.black,),
-          ),
-          actions: [
-          
-                //Icon ok
-                GestureDetector(onTap: (){
-                  Navigator.pop(context);
-                }, child: Icon(Icons.check, size: 25, color: Colors.green[600], ))
-             
-          ],
-
-        );
-      },);
+            icon: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle, color: Colors.green[400]),
+              child: const Icon(
+                Icons.copy,
+                color: Colors.black,
+              ),
+            ),
+            actions: [
+              //Icon ok
+              GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Icon(
+                    Icons.check,
+                    size: 25,
+                    color: Colors.green[600],
+                  ))
+            ],
+          );
+        },
+      );
     });
   }
 
@@ -125,15 +142,107 @@ class _RecognizerScreenState extends State<RecognizerScreen> {
                 ),
               ),
 
-              Card(
-                color: Colors.grey[200],
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
-                  child: Text(
-                  results,
-                  style: TextStyle(fontWeight: FontWeight.w500),
+              //Text from image and translator
+              results == ""
+                  ? CircularProgressIndicator()
+                  : Column(
+                      children: [
+                        //Text from image
+                        Card(
+                            color: Colors.grey[200],
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0, vertical: 10),
+                              child: Text(
+                                results,
+                                style: TextStyle(fontWeight: FontWeight.w500),
+                              ),
+                            )),
+
+                        const SizedBox(
+                          height: 15,
+                        ),
+
+                        //Translator bar
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 25, vertical: 15),
+                          decoration: BoxDecoration(color: Colors.black),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              //Translator select
+                              Container(
+                                height: 50,
+                                width: 200,
+                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(12)),
+                                child: DropdownButtonFormField(
+                                  items: options.map((String option) {
+                                    return DropdownMenuItem(
+                                      child: Text(option),
+                                      value: option.toLowerCase(),
+                                    );
+                                  }).toList(),
+                                  onChanged: (newValue) async {
+                                    setState(() {
+                                      waitTranslator = true;
+                                    });
+                                    var translation = await translator
+                                        .translate(results, to: newValue!);
+
+                                    setState(() {
+                                      translatorResult = translation.toString();
+                                      waitTranslator = false;
+                                    });
+                                  },
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: "language",
+                                      prefixIcon: Icon(Icons.language)),
                                 ),
-                ))
+                              ),
+
+                              //IconTranslator
+                              Icon(
+                                Icons.translate,
+                                color: Colors.white,
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        const SizedBox(
+                          height: 15,
+                        ),
+
+                        //Display Translator
+
+                        waitTranslator
+                            ? Center(
+                                child: CircularProgressIndicator(),
+                              )
+                            : Card(
+                                color: Colors.grey[200],
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0, vertical: 10),
+                                  child: Text(
+                                    translatorResult,
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              )
+                      ],
+                    ),
+
+              const SizedBox(
+                height: 15,
+              ),
             ],
           ),
         ),

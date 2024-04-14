@@ -55,6 +55,11 @@ class _CropImageState extends State<CropImage> {
         child: Visibility(
           //Nếu không trong quá trình cắt ảnh hoặc tải ảnh thì hiển thị data
           visible: !_isLoadingImage && !_isCropping,
+
+          //Nếu đang trong quá trình tải ảnh hoặc cắt ảnh thì chạy thanh progress
+          replacement: const Center(
+            child: CircularProgressIndicator(),
+          ),
           child: Column(
   
             children: [
@@ -126,12 +131,12 @@ class _CropImageState extends State<CropImage> {
                         onTapDown:(_) => setState(() => _isSumbnail = true),
                         onTapUp: (_) => setState(() => _isSumbnail = false),
                         child: Container(
-                          padding: EdgeInsets.all(10),
+                          padding:const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: _isSumbnail ? Colors.grey  :Colors.blue
                           ),
-                          child: Icon(Icons.crop_free),
+                          child:const Icon(Icons.crop_free),
                           
                         ),
                       )
@@ -156,7 +161,7 @@ class _CropImageState extends State<CropImage> {
                             _controller.withCircleUi = false;
                             _controller.aspectRatio = 16/9;
                           },
-                          icon: Icon(
+                          icon:const Icon(
                             Icons.crop_16_9,
                             size: 30,
                           )),
@@ -166,14 +171,14 @@ class _CropImageState extends State<CropImage> {
                             _controller.withCircleUi = false;
                              _controller.aspectRatio = 7/5;
                           },
-                          icon: Icon(Icons.crop_7_5, size: 30)),
+                          icon:const Icon(Icons.crop_7_5, size: 30)),
                       IconButton(
                           onPressed: () {
                              _isCircleUi = false;
                             _controller.withCircleUi = false;
                              _controller.aspectRatio = 5/4;
                           },
-                          icon: Icon(Icons.crop_5_4, size: 30)),
+                          icon:const Icon(Icons.crop_5_4, size: 30)),
                       IconButton(
                           onPressed: () {
                              _isCircleUi = false;
@@ -181,20 +186,20 @@ class _CropImageState extends State<CropImage> {
                                 ..withCircleUi = false
                                 ..aspectRatio = 1;
                           },
-                          icon: Icon(Icons.crop_square, size: 30)),
+                          icon:const Icon(Icons.crop_square, size: 30)),
                       IconButton(
                           onPressed: () {
                              _isCircleUi = false;
                             _controller.withCircleUi = false;
                              _controller.aspectRatio = 3/2;
                           },
-                          icon: Icon(Icons.crop_3_2, size: 30)),
+                          icon:const Icon(Icons.crop_3_2, size: 30)),
                       IconButton(
                           onPressed: () {
                             _isCircleUi = true;
                             _controller.withCircleUi = true;
                           },
-                          icon: Icon(Icons.circle_outlined, size: 30)),
+                          icon:const Icon(Icons.circle_outlined, size: 30)),
                     ],
                   ),
                 ),
@@ -212,16 +217,16 @@ class _CropImageState extends State<CropImage> {
                       });
                       _isCircleUi ? _controller.cropCircle() : _controller.crop();
                     },
-                    child: Container(
+                    child:  Container(
                         width: double.infinity,
                         alignment: Alignment.center,
-                        padding:
+                        padding:const
                             EdgeInsets.symmetric(horizontal: 35, vertical: 15),
-                        margin: EdgeInsets.only(left: 20, right: 20,  ),
-                        decoration: BoxDecoration(
+                        margin:const EdgeInsets.only(left: 20, right: 20,  ),
+                        decoration: const BoxDecoration(
                           color: Colors.black,
                         ),
-                        child: Text(
+                        child:const Text(
                           "Crop it",
                           style: TextStyle(
                               color: Colors.white,
@@ -233,11 +238,6 @@ class _CropImageState extends State<CropImage> {
 
                   
             ],
-          ),
-
-          //Nếu đang trong quá trình tải ảnh hoặc cắt ảnh thì chạy thanh progress
-          replacement: const Center(
-            child: CircularProgressIndicator(),
           ),
         ),
       ),
