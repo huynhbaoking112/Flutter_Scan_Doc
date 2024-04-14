@@ -3,8 +3,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:scan/components/recognize/action/action_bar_recognize.dart';
-import 'package:scan/components/recognize/action/function/crop_image.dart';
+import 'package:scan/components/component_of_homepage/recognize/action/action_bar_recognize.dart';
+import 'package:scan/components/component_of_homepage/recognize/action/function/crop_image.dart';
 import 'package:scan/pages/RecognizerScreen.dart';
 
 class ChoosePic extends StatefulWidget {

@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:scan/components/scan/choose_camera.dart';
-import 'package:scan/components/recognize/choose_pic.dart';
-import 'package:scan/components/common/top_bar.dart';
+import 'package:scan/components/component_of_homepage/scan/choose_camera.dart';
+import 'package:scan/components/component_of_homepage/recognize/choose_pic.dart';
+import 'package:scan/components/component_of_homepage/common/top_bar.dart';
 import 'package:scan/pages/RecognizerScreen.dart';
 import 'package:scan/utils/enums/enum_choose.dart';
 
